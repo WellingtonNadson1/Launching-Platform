@@ -20,7 +20,7 @@ export function Lesson(props: LessonPropos){
                 {availableDateFormated}
             </span>
 
-            <div className="border border-gray-500 rounded p-4 mt-2">
+            <div className="border border-gray-500 rounded p-4 mt-2 hover:border-green-300">
                 <header className="flex items-center justify-between">
                     
                     {isavailableAt ? (
@@ -35,9 +35,16 @@ export function Lesson(props: LessonPropos){
                         </span>
                     )}
 
-                    <span className="text-xs rounded px-2 py-[0.125rem] border border-green-300 font-bold">
-                        {props.type === 'live' ? "AO VIVO" : 'AULA PRÁTICA'}
-                    </span>
+                    {isavailableAt ? (
+                        <span className="text-xs rounded px-2 py-[0.125rem] border border-green-300 font-bold">
+                            {props.type === 'live' ? "AO VIVO" : 'AULA PRÁTICA'}
+                        </span>
+                    ) : (
+                        <span className="text-xs text-green-300 rounded px-2 py-[0.125rem] border border-green-300 font-bold">
+                            {props.type === 'live' ? "AO VIVO" : 'AULA PRÁTICA'}
+                        </span>
+                    )
+                    }
                 </header>
                 <strong className="text-gray-200 mt-5 block">
                     {props.title}
