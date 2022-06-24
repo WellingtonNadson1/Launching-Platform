@@ -4,8 +4,8 @@ import { gql, useQuery } from "@apollo/client";
 import '@vime/core/themes/default.css'
 
 const GET_LESSON_BY_SLUG_QUERY = gql `
-    query GetLessonBySlug ($slug: String) {
-        lesson(where: {slug: ""}) {
+    query GetLessonBySlug ($slug: String!) {
+        lesson(where: {slug: $slug}) {
             videoId
             title
             description
@@ -55,15 +55,16 @@ export function Video(props: VideoProps){
     return (
         <div className="flex-1">
             <div className="bg-black flex justify-center">
-                <div className="h-full w-full max-w-[1100] max-h-[70vh] aspect-video">
+                <div className="h-full w-full max-w-[1100px] max-h-[60vh] aspect-video">
                     <Player>
-                        <Youtube videoId={data.lesson.videoId} />
+                        <Youtube videoId={data?.lesson.videoId} 
+                                 key={data?.lesson.videoId}/>
                         <DefaultUi />
                     </Player>
                 </div>
             </div>
 
-            <div className="p-8 max-w-[1100] mx-auto">
+            <div className="p-8 max-w-[1100px] mx-auto">
                 <div className="flex items-start gap-16">
                     <div className="flex-1">
                         <h1 className="text-2xl font-bold">
