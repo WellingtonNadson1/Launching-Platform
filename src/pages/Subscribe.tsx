@@ -1,25 +1,28 @@
 import { useState, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { Logo } from "../components/Logo";
 import { useCreateSubscriberMutation } from "../graphql/generated";
 
 
 export function Subscribe() {
 
+    const navigate = useNavigate()
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
 
-    const [createSubscriber] = useCreateSubscriberMutation()
+    const [createSubscriber, { loading }] = useCreateSubscriberMutation()
 
-    function handleSubscribe (event: FormEvent) {
+   async function handleSubscribe (event: FormEvent) {
         event.preventDefault()
         
-        createSubscriber({
+       await createSubscriber({
             variables: {
                 name,
                 email,
             }
         })
+        navigate('/event')
     }
 
 
@@ -45,8 +48,11 @@ export function Subscribe() {
                         onChange={event => setName(event.target.value)}/>
                         <input className="bg-gray-900 rounded px-5 h-14" placeholder="Digite seu e-mail" type="email" name="" id="" 
                         onChange={event => setEmail(event.target.value)}/>
-                        <button type="submit"
-                        className="mt-4 bg-green-500 uppercase py-4 rounded font-bold text-sm hover:bg-green-700 transition-colors">
+                        
+                        <button 
+                        type="submit"
+                        disabled={ loading }
+                        className="mt-4 bg-green-500 uppercase py-4 rounded font-bold text-sm hover:bg-green-700 transition-colors disabled:opacity-50">
                             Garantir minha vaga
                         </button>
 
