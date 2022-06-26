@@ -1,6 +1,28 @@
+import { useState, FormEvent } from "react";
 import { Logo } from "../components/Logo";
+import { useCreateSubscriberMutation } from "../graphql/generated";
+
 
 export function Subscribe() {
+
+
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+
+    const [createSubscriber] = useCreateSubscriberMutation()
+
+    function handleSubscribe (event: FormEvent) {
+        event.preventDefault()
+        
+        createSubscriber({
+            variables: {
+                name,
+                email,
+            }
+        })
+    }
+
+
     return (
         <div className="min-h-screen bg-blur bg-cover bg-no-repeat flex flex-col items-center">
             <div className="w-full max-w-[1100px] flex items-center justify-between mt-20 mx-auto">
@@ -18,9 +40,11 @@ export function Subscribe() {
                         Inscreva-se gratuitamente
                     </strong>
 
-                    <form action="" className="flex flex-col gap-2 w-full">
-                        <input className="bg-gray-900 rounded px-5 h-14" placeholder="Seu nome completo" type="text" name="" id="" />
-                        <input className="bg-gray-900 rounded px-5 h-14" placeholder="Digite seu e-mail" type="email" name="" id="" />
+                    <form onSubmit={handleSubscribe} className="flex flex-col gap-2 w-full">
+                        <input className="bg-gray-900 rounded px-5 h-14" placeholder="Seu nome completo" type="text" name="" id="" 
+                        onChange={event => setName(event.target.value)}/>
+                        <input className="bg-gray-900 rounded px-5 h-14" placeholder="Digite seu e-mail" type="email" name="" id="" 
+                        onChange={event => setEmail(event.target.value)}/>
                         <button type="submit"
                         className="mt-4 bg-green-500 uppercase py-4 rounded font-bold text-sm hover:bg-green-700 transition-colors">
                             Garantir minha vaga
